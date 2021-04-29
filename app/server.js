@@ -19,9 +19,9 @@ const port = config.NODE_PORT;
 
 const dbFileManager = new DbFileManager(config.PATH_TO_DIR, user);
 
-app.use('/user', userRoutes);
-
 app.use(bodyParser.json());
+
+app.use('/user', userRoutes);
 
 const init = async () => {
     await dbFileManager.init();
