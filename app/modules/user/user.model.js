@@ -33,6 +33,6 @@ class User {
     }
 }
 
-const user = new User();
+const userModel = new User();
 
-module.exports = user;
+module.exports = userModel;
