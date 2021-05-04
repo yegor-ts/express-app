@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 
 app.use('/user', userRoutes);
 
-const init = async () => {
+const main = async () => {
     await dbFileManager.init();
 
     server.listen(port, hostname, () => {
@@ -31,4 +31,4 @@ const init = async () => {
     });
 }
 
-init();
+main();
