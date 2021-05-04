@@ -1,17 +1,16 @@
 const {v4: uuidv4} = require('uuid');
 
-const user = require('./user.model');
+const userModel = require('./user.model');
 
 class UserService {
     constructor() {
-        this.user = user;
+        this.user = userModel;
     }
 
     async createUser(entity) {
         console.log(`POST /user :: create new user ${entity.name}`);
 
         const id = uuidv4();
-        //TODO: object assign
         const newEntity = {...entity, id};
 
         return await this.user.save(newEntity);
