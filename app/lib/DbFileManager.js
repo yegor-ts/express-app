@@ -90,15 +90,18 @@ class DbFileManager {
             console.log('File doesnt exist');
             return null;
         }
+        let updatedEntity;
         const entityArray = await this.getAll(file);
         const updatedEntityArray = entityArray.map( entity => {
             if(entity.id === id) {
-                return Object.assign(entity, dataForUpdate);
+                updatedEntity = Object.assign(entity, dataForUpdate);
+                return updatedEntity;
             } else {
                 return entity;
             }
         });
-        return fs.writeFile(pathToFile, JSON.stringify(updatedEntityArray)).then( () => updatedEntityArray);
+        fs.writeFile(pathToFile, JSON.stringify(updatedEntityArray));
+        return updatedEntity;
     }
 
     async deleteEntity(file, id) {
