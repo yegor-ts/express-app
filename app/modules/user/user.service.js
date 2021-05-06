@@ -7,37 +7,27 @@ class UserService {
         this.user = userModel;
     }
 
-    async createUser(entity) {
-        console.log(`POST /user :: create new user ${entity.name}`);
-
+    createUser(entity) {
         const id = uuidv4();
         const newEntity = {...entity, id};
 
-        return await this.user.save(newEntity);
+        return this.user.save(newEntity);
     }
 
-    async findUserById(id) {
-        console.log(`GET /user/:id :: Get user by id: ${id}`);
-
-        return await this.user.findOne(id);
+    findUserById(id) {
+        return this.user.findOne(id);
     }
 
-    async findAllUsers() {
-        console.log('GET /user :: Get all users from a db');
-
-        return await this.user.findAll();
+    findAllUsers() {
+        return this.user.findAll();
     }
 
-    async updateUserById(id, dataForUpdate) {
-        console.log(`PATCH /user/:id :: Update user by id ${id}`)
-
-        return await this.user.updateOne(id, dataForUpdate);
+    updateUserById(id, dataForUpdate) {
+        return this.user.updateOne(id, dataForUpdate);
     }
 
-    async deleteUserById(id) {
-        console.log(`DELETE /user/:id :: Delete user by id ${id}`);
-
-        return await this.user.deleteOne(id);
+    deleteUserById(id) {
+        return this.user.deleteOne(id);
     }
 }
 

@@ -8,24 +8,24 @@ class User {
         this.repository = new DbFileManager(config.PATH_TO_DIR, 'user');
     }
 
-    async save(entity) {
-        return await this.repository.createEntity(this.fileName, entity);
+    save(entity) {
+        return this.repository.createEntity(this.fileName, entity);
     }
 
-    async findOne(id) {
-        return await this.repository.getEntity(this.fileName, id);
+    findOne(id) {
+        return this.repository.getEntity(this.fileName, id);
     }
 
-    async findAll() {
-        return await this.repository.getAll(this.fileName);
+    findAll() {
+        return this.repository.getAll(this.fileName);
     }
 
-    async updateOne(id, dataForUpdate) {
-        return await this.repository.updateEntity(this.fileName, id, dataForUpdate);
+    updateOne(id, dataForUpdate) {
+        return this.repository.updateEntity(this.fileName, id, dataForUpdate);
     }
 
-    async deleteOne(id) {
-        return await this.repository.deleteEntity(this.fileName, id);
+    deleteOne(id) {
+        return this.repository.deleteEntity(this.fileName, id);
     }
 
     getName() {
