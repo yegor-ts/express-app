@@ -7,7 +7,7 @@ exports.signupUser = async (req, res) => {
         const user = req.body;
         await userService.createUser(user);
 
-        res.end(user);
+        res.send(user);
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
     }
@@ -38,7 +38,6 @@ exports.updateUser = async (req, res) => {
         const {id} = req.params;
         const updateBody = req.body;
         const updatedUser = await userService.updateUserById(id, updateBody);
-        console.log(updatedUser);
         res.json(updatedUser);
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
@@ -49,9 +48,8 @@ exports.deleteUser = async (req, res) => {
     try {
         const {id} = req.params;
 
-        const deletedUser = await userService.deleteUserById(id);
-        console.log(deletedUser);
-        res.json(deletedUser);
+        await userService.deleteUserById(id);
+        res.end('User was deleted');
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
     }
