@@ -1,17 +1,20 @@
 const express = require('express');
+const { createValidator } = require('express-joi-validation');
 
 const userController = require('./user.controller');
+const {userSchema, paramsUserSchema, updateUserSchema} = require('./user.schema');
 
 const router = express.Router();
+const validator = createValidator();
 
 router.get('/', userController.getAllUsers);
 
-router.post('/', userController.signupUser);
+router.post('/', validator.body(userSchema), userController.signupUser);
 
-router.get('/:id', userController.getUser);
+router.get('/:id', validator.params(paramsUserSchema), userController.getUser);
 
-router.patch('/:id', userController.updateUser);
+router.patch('/:id', validator.body(userSchema),userController.updateUser);
 
-router.delete('/:id', userController.deleteUser);
+router.delete('/:id', validator.params(paramsUserSchema),userController.deleteUser);
 
 module.exports = router;
