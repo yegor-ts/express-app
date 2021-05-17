@@ -7,7 +7,3 @@ exports.userSchema = Joi.object({
         .required(),
     email: Joi.string().email().required()
 });
-
-exports.paramsUserSchema = Joi.object({
-   id: Joi.string().required()
-});
