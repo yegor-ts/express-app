@@ -4,10 +4,9 @@ const userService = require('./user.service');
 
 exports.signupUser = async (req, res) => {
     try {
-        const user = req.body;
-        await userService.createUser(user);
+        await userService.createUser(req.body);
 
-        res.send(user);
+        res.send(req.body);
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
     }
@@ -15,8 +14,7 @@ exports.signupUser = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try {
-        const {id} = req.params;
-        const user = await userService.findUserById(id);
+        const user = await userService.findUserById(req.params.id);
 
         res.json(user);
     } catch (e) {
@@ -35,9 +33,7 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try {
-        const {id} = req.params;
-        const updateBody = req.body;
-        const updatedUser = await userService.updateUserById(id, updateBody);
+        const updatedUser = await userService.updateUserById(req.params.id, req.body);
         res.json(updatedUser);
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
@@ -46,9 +42,8 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        const {id} = req.params;
+        await userService.deleteUserById(req.params.id);
 
-        await userService.deleteUserById(id);
         res.end('User was deleted');
     } catch (e) {
         res.end(http.STATUS_CODES[204]);

@@ -52,7 +52,7 @@ class DbFileManager {
         const created = await this.checkFileExist(file);
         const filename = file + '.json';
         const pathToFile = path.resolve(this.pathToDir, filename);
-        console.log(pathToFile);
+
         if(!created) {
             console.log('File doesnt exist');
             return null;
@@ -117,7 +117,6 @@ class DbFileManager {
             return entity.id !== id;
         });
         return fs.writeFile(pathToFile, JSON.stringify(updatedEntityArray)).then( () => updatedEntityArray);
-
     }
 }
 

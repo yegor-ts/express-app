@@ -1,33 +1,36 @@
-const {v4: uuidv4} = require('uuid');
-
-const userModel = require('./user.model');
+const userModel = require('../../database/models').User;
 
 class UserService {
     constructor() {
-        this.user = userModel;
+        this.userModel = userModel;
     }
 
-    createUser(entity) {
-        const id = uuidv4();
-        const newEntity = {...entity, id};
-
-        return this.user.save(newEntity);
+    async createUser(entity) {
+        try {
+            await this.userModel.create(entity);
+        } catch (e){
+            console.log(e)
+        }
     }
 
     findUserById(id) {
-        return this.user.findOne(id);
+        return this.userModel.findByPk(id);
     }
 
     findAllUsers() {
-        return this.user.findAll();
+        return this.userModel.findAll();
     }
 
-    updateUserById(id, dataForUpdate) {
-        return this.user.updateOne(id, dataForUpdate);
+    async updateUserById(id, dataForUpdate) {
+        const updatedUser = await this.userModel.findByPk(id).then( user => {
+            return Object.assign(user, dataForUpdate);
+        });
+        return updatedUser.save();
     }
 
-    deleteUserById(id) {
-        return this.user.deleteOne(id);
+    async deleteUserById(id) {
+        const userById = await this.userModel.findByPk(id);
+        return userById.destroy();
     }
 }
 
