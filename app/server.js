@@ -31,10 +31,6 @@ app.use('/user', userRoutes);
 app.use('/post', postRoutes);
 app.use('/follow', followerRoutes);
 
-const main = async () => {
-    server.listen(port, hostname, () => {
-        console.log(`Node server running at http://${hostname}:${port}/`);
-    });
-};
-
-main();
+server.listen(port, hostname, () => {
+    console.log(`Node server running at http://${hostname}:${port}/`);
+});
