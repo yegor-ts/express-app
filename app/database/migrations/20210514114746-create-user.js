@@ -24,6 +24,10 @@ module.exports = {
           msg: 'Put a valid email'
         }
       },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
