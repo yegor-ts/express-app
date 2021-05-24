@@ -12,6 +12,13 @@ passport.serializeUser( (user, done) => {
     done(null, user.id);
 });
 
+passport.deserializeUser( (userId, done) => {
+   userService.findUserById(userId).then( user => {
+       done(null, user);
+   })
+       .catch( err => done(err))
+});
+
 passport.use('signup', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
