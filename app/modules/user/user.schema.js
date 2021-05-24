@@ -5,5 +5,10 @@ exports.userSchema = Joi.object({
         .min(2)
         .max(30)
         .required(),
-    email: Joi.string().email().required()
+    email: Joi.string().email().required(),
+    password: Joi.string().required()
 });
+
+exports.paramsUserSchema = Joi.object({
+    id: Joi.string().required()
+})

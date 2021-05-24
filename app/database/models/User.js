@@ -1,4 +1,7 @@
 'use strict';
+
+const bcrypt = require('bcrypt');
+
 const {
   Model
 } = require('sequelize');
@@ -36,10 +39,36 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isEmail: true,
       }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     sequelize,
     modelName: 'User',
+    hooks:{
+      beforeCreate: async (user) => {
+        if(user.password) {
+          const salt = await bcrypt.genSaltSync(10, 'a');
+          user.password = bcrypt.hashSync(user.password, salt);
+        }
+      },
+      beforeUpdate: async (user) => {
+        if(user.password) {
+          const salt = await bcrypt.genSaltSync(10, 'a');
+          user.password = bcrypt.hashSync(user.password, salt);
+        }
+      }
+    },
+    instanceMethods: {
+      validPassword(password) {
+        return bcrypt.compare(password, this.password);
+      }
+    }
   });
+  User.prototype.validPassword = async (password, hash) => {
+    return await bcrypt.compareSync(password, hash);
+  }
   return User;
 };
