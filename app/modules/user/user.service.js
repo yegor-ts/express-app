@@ -17,6 +17,14 @@ class UserService {
         return this.userModel.findByPk(id);
     }
 
+    findUserByEmail(email) {
+        return this.userModel.findOne({
+            where: {
+                email: email
+            }
+        })
+    }
+
     findAllUsers() {
         return this.userModel.findAll();
     }
