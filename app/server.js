@@ -4,13 +4,14 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const passport = require('passport');
 
 const app = express();
 const server = require('http').createServer(app);
 
 const config = require('./config/config');
 require('./config/mongodb');
-const passport = require('./config/passport-config');
+require('./config/passport-config');
 
 const userRoutes = require('./modules/user/user.route');
 const postRoutes = require('./modules/post/post.route');
@@ -38,9 +39,9 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/user', userRoutes);
-app.use('/post', postRoutes);
-app.use('/follow', followerRoutes);
+app.use('/user', passport.authenticate('access'), userRoutes);
+app.use('/post', passport.authenticate('access'), postRoutes);
+app.use('/follow', passport.authenticate('access'), followerRoutes);
 app.use('/auth', authRoutes);
 
 server.listen(port, hostname, () => {
