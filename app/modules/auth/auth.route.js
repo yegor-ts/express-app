@@ -30,25 +30,36 @@ router.get('/', async (req, res, next) => {
    })(req, res, next)
 });
 
+// router.post('/login', async (req, res, next) => {
+//         passport.authenticate(
+//             'login',
+//             async (err, user, info) => {
+//                 try {
+//                     if (err || !user)
+//                         return next(new Error('An error occurred.'));
+//                     req.login(user, { session: false }, async error => {
+//                             if (error) return next(error);
+//                             const body = { id: user.id, email: user.email, name: user.name };
+//                             const token = jwt.sign({ user: body }, config.SECRET_TOKEN_KEY);
+//                             return res.json({ token });
+//                         }
+//                     );
+//                 } catch (error) {
+//                     return next(error);
+//                 }
+//             }
+//         )(req, res, next);
+//     }
+// );
+
 router.post('/login', async (req, res, next) => {
         passport.authenticate(
-            'login',
-            async (err, user, info) => {
-                try {
-                    if (err || !user)
-                        return next(new Error('An error occurred.'));
-                    req.login(user, { session: false }, async error => {
-                            if (error) return next(error);
-                            const body = { id: user.id, email: user.email, name: user.name };
-                            const token = jwt.sign({ user: body }, config.SECRET_TOKEN_KEY);
-                            return res.json({ token });
-                        }
-                    );
-                } catch (error) {
-                    return next(error);
-                }
-            }
-        )(req, res, next);
+            'login', { session: false }, (err, data, info) => {
+                if (data)
+                    return res.json(data);
+                else if (info.message) return res.json(info.message)
+                else return res.json(info.toString())
+            })(req, res, next)
     }
 );
 

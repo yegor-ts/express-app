@@ -7,11 +7,13 @@ const { followerParamsSchema } = require('./follower.schema');
 const router = express.Router();
 const validator = createValidator();
 
-router.post('/:id', validator.params(followerParamsSchema), followerController.follow);
+router.get('/', followerController.getAllFollowers);
 
-router.patch('/accept/:id', validator.params(followerParamsSchema), followerController.accept);
+router.post('/', validator.params(followerParamsSchema), followerController.follow);
 
-router.patch('/decline/:id', validator.params(followerParamsSchema), followerController.decline);
+router.patch('/accept', validator.params(followerParamsSchema), followerController.accept);
+
+router.patch('/decline', validator.params(followerParamsSchema), followerController.decline);
 
 router.delete('/:id', validator.params(followerParamsSchema), followerController.unfollow);
 
