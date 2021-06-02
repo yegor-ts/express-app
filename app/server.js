@@ -39,9 +39,9 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/user', passport.authenticate('access'), userRoutes);
-app.use('/post', passport.authenticate('access'), postRoutes);
-app.use('/follow', passport.authenticate('access'), followerRoutes);
+app.use('/user', userRoutes);
+app.use('/post',  postRoutes);
+app.use('/follow', followerRoutes);
 app.use('/auth', authRoutes);
 
 server.listen(port, hostname, () => {
