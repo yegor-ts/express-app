@@ -1,4 +1,4 @@
-const userModel = require('../../database/models').User;
+const userModel = require('./user.model');
 
 class UserService {
     constructor() {
@@ -7,38 +7,30 @@ class UserService {
 
     async createUser(entity) {
         try {
-            await this.userModel.create(entity);
+            return  this.userModel.create(entity);
         } catch (e){
             console.log(e)
         }
     }
 
     findUserById(id) {
-        return this.userModel.findByPk(id);
+        return this.userModel.findOne({ id: id} );
     }
 
     findUserByEmail(email) {
-        return this.userModel.findOne({
-            where: {
-                email: email
-            }
-        })
+        return this.userModel.findOneByEmail(email);
     }
 
     findAllUsers() {
         return this.userModel.findAll();
     }
 
-    async updateUserById(id, dataForUpdate) {
-        const updatedUser = await this.userModel.findByPk(id).then( user => {
-            return Object.assign(user, dataForUpdate);
-        });
-        return updatedUser.save();
+    updateUserById(id, dataForUpdate) {
+         return  this.userModel.update(id, dataForUpdate);
     }
 
-    async deleteUserById(id) {
-        const userById = await this.userModel.findByPk(id);
-        return userById.destroy();
+    deleteUserById(id) {
+        return this.userModel.delete(id);
     }
 }
 

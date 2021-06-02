@@ -1,30 +1,18 @@
-const followerModel = require('../../database/models').Follower;
+const followerModel = require('./follower.model');
 
 class FollowerService {
     constructor() {
         this.followerModel = followerModel;
     }
 
-    acceptFollow(targetId, followerId) {
-        return  followerModel.findOne({
-            where: {
-                targetId,
-                followerId
-            }
-        }).then( follower => {
-            follower.update({status: 'Accepted'});
-        });
+    async acceptFollow(targetId, followerId) {
+        return  this.followerModel.findOne(targetId, followerId)
+            .then( follower => follower.update({ status: 'Accepted' }));
     }
 
     declineFollow(targetId, followerId) {
-        return followerModel.findOne({
-            where: {
-                targetId,
-                followerId
-            }
-        }).then( follower => {
-            return follower.update({status: 'Declined'});
-        });
+        return  this.followerModel.findOne(targetId, followerId)
+            .then( follower => follower.update({ status: 'Declined' }));
     }
 
     followPerson(body) {
@@ -32,7 +20,7 @@ class FollowerService {
     }
 
     unfollowPerson(targetId, followerId) {
-        return followerModel.findOne({
+        return this.followerModel.findOne({
             where: {
                 targetId,
                 followerId
@@ -40,6 +28,10 @@ class FollowerService {
         }).then( follower => {
             return follower.destroy();
         });
+    }
+
+    getAll() {
+        return this.followerModel.findAll();
     }
 }
 
