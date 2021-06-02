@@ -6,11 +6,11 @@ exports.signupPost = async (req, res) => {
     try {
         const postBody = {
             text: req.body.text,
-            authorId: req.user.id
+            authorId: req.body.authorId
         }
-        await postService.createPost(postBody);
+        const post = await postService.createPost(postBody);
 
-        res.send(postBody.text);
+        res.send(post);
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
     }
@@ -19,9 +19,9 @@ exports.signupPost = async (req, res) => {
 exports.getPost = async (req, res) => {
     try {
         const {id} = req.params;
-        const post = await postService.findPostById(id, req.user.id);
-        if(post === undefined) {
-            res.status(403).send('No access to post');
+        const post = await postService.findPostById(id);
+        if(post === null) {
+            res.send('No such post');
         }
 
         res.json(post);
@@ -42,9 +42,9 @@ exports.getAllPosts = async (req, res) => {
 
 exports.updatePost = async (req, res) => {
     try {
-        const updatedPost = await postService.updatePostById(req.params.id, req.body, req.user.id);
+        const updatedPost = await postService.updatePostById(req.params.id, req.body);
 
-        res.json(updatedPost.text);
+        res.json(updatedPost);
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
     }
@@ -54,7 +54,7 @@ exports.deletePost = async (req, res) => {
     try {
         const {id} = req.params;
 
-        await postService.deletePostById(id, req.user.id);
+        await postService.deletePostById(id);
 
         res.send('Post was deleted');
     } catch (e) {

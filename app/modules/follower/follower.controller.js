@@ -5,8 +5,8 @@ const followerService = require('./follower.service');
 exports.follow = async (req, res) => {
     try {
         const followerBody = {
-            targetId: req.params.id,
-            followerId: req.user.id
+            targetId: req.body.targetId,
+            followerId: req.body.followerId
         };
         await followerService.followPerson(followerBody);
         res.send(followerBody);
@@ -17,9 +17,10 @@ exports.follow = async (req, res) => {
 
 exports.accept = async (req, res) => {
     try {
-        await followerService.acceptFollow(req.user.id, req.params.id);
+        const { followerId, targetId } = req.body;
+        const updatedFollow = await followerService.acceptFollow(targetId, followerId);
 
-        res.end();
+        res.send(updatedFollow);
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
     }
@@ -27,9 +28,10 @@ exports.accept = async (req, res) => {
 
 exports.decline = async (req, res) => {
     try {
-        await followerService.declineFollow(req.user.id, req.params.id);
+        const { followerId, targetId } = req.body;
+        const updatedFollow = await followerService.declineFollow(targetId, followerId);
 
-        res.end();
+        res.send(updatedFollow);
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
     }
@@ -44,3 +46,13 @@ exports.unfollow = async (req, res) => {
         res.end(http.STATUS_CODES[204]);
     }
 };
+
+exports.getAllFollowers = async (req, res) => {
+    try {
+        const followers = await followerService.getAll();
+
+        res.send(followers);
+    } catch (e) {
+        res.end(http.STATUS_CODES[204]);
+    }
+}

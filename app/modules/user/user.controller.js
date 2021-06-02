@@ -16,6 +16,9 @@ exports.getUser = async (req, res) => {
     try {
         const user = await userService.findUserById(req.params.id);
 
+        if(!user) {
+            res.send(http.STATUS_CODES[404]);
+        }
         res.json(user);
     } catch (e) {
         res.end(http.STATUS_CODES[204]);
